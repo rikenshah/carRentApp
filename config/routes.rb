@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  match '/users',   to: 'users#index',   via: 'get'
+
   resources :reservations
   resources :cars
   root 'application#index'
