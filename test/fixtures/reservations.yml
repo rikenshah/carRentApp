@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  car: one
+  check_out: 2017-09-21 14:39:56
+  return: 2017-09-21 14:39:56
+  checked_out: false
+  returned: false
+
+two:
+  user: two
+  car: two
+  check_out: 2017-09-21 14:39:56
+  return: 2017-09-21 14:39:56
+  checked_out: false
+  returned: false
