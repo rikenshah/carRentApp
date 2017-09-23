@@ -1,14 +1,13 @@
-<%= link_to "Home", root_path %>
-	<br>
+<br><br>
 	<% if user_signed_in? %>
 		<% if is_superadmin %>
-			<h3>Welcome Super Admin</h3>
+			<h3>Super Admin : Links</h3>
 			<br><%= link_to("See all Members", "/users") %><br>
 		<% elsif is_admin %>
-			<h3>Welcome Admin</h3>
+			<h3>Admin : Links</h3>
 			<br><%= link_to("See all Members", "/users") %><br>			
 		<% else %>
-			<h3>Welcome Customer</h3>
+			<h3>Customer : Links</h3>
 		<% end %>
 		<%= link_to "Profile", edit_user_registration_path %>
 		<br><%= link_to "See all Cars", cars_path %>

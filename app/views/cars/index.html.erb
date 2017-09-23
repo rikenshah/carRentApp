@@ -1,3 +1,5 @@
+<%= render 'dashboard/header' %>
+
 <p id="notice"><%= notice %></p>
 
 <h1>Cars</h1>
@@ -27,6 +29,7 @@
         <td><%= car.location %></td>
         <td><%= car.licence_plate %></td>
         <td><%= link_to 'Show', car %></td>
+        <td><%= link_to "Reserve", controller: "reservations", action: "new", car_id: car.id%></td>
         <% if is_admin_or_superadmin %>
           <td><%= link_to 'Edit', edit_car_path(car) %></td>
           <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
