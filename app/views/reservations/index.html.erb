@@ -18,8 +18,8 @@
   <tbody>
     <% @reservations.each do |reservation| %>
       <tr>
-        <td><%= reservation.user %></td>
-        <td><%= reservation.car %></td>
+        <td><%= reservation.user.email %></td>
+        <td><%= reservation.car.model %></td>
         <td><%= reservation.check_out %></td>
         <td><%= reservation.return %></td>
         <td><%= reservation.checked_out %></td>
