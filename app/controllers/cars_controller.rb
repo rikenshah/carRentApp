@@ -4,7 +4,18 @@ class CarsController < ApplicationController
   # GET /cars
   # GET /cars.json
   def index
-    @cars = Car.all
+  @cars = Car.all
+  @carres = Hash.new()
+  @cars.each { |car|
+    @ress = Array.new()
+    Reservation.all.each {|res_local|
+      next unless car.id == res_local.car_id
+      # puts @ress.length.to_s
+      @carres[car.id] = Array.new() if @carres[car.id].nil?
+      @carres[car.id].push(res_local) unless @carres[car.id].nil?
+      # puts @carres[car.id].length.to_s
+    }
+  }
   end
 
   # GET /cars/1

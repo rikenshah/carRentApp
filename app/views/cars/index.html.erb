@@ -30,6 +30,22 @@
         <td><%= link_to 'Edit', edit_car_path(car) %></td>
         <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
+      <tr>
+        <table border="1" cellpadding="0">
+          <tbody >
+          <%= 7.times do %>
+              <tr height="20">
+                <%= 24.times do %>
+                    <td width="40"></td>
+                <% end %>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </tr>
+      <tr>
+        <td colspan="7"><%= @carres%></td>
+      </tr>
     <% end %>
   </tbody>
 </table>
