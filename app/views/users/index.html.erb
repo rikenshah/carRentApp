@@ -1,7 +1,25 @@
 <h1>Users#index</h1>
 <p>Find me in app/views/users/index.html.erb</p>
-
-<% @users = User.all %>
-<% @users.each do |user| %>
-  <%= user.email %><br/>
+<% if current_user.superadmin? %>
+	<h3>Welcome Super Admin</h3>
+	<h4>List of superadmins<h4>
+		<% @superadmins.each do |superadmin| %>
+			<%= superadmin.email %> <br/>
+		<% end %>
+	<br>
+<% end %>
+<% if current_user.admin? or current_user.superadmin? %>
+	<h3>Welcome Admin</h3>
+	<h4>List of Admins</h4>
+		<% @admins.each do |admin| %>
+			<%= admin.email %> <br/>
+		<% end %>
+		<br>
+	<h4> List of Users </h4>
+		<% @users.each do |user| %>
+		  <%= user.email %><br/>
+		<% end %>
+	<br>
+<% else %>
+	<h3>Welcome Customer</h3>
 <% end %>
