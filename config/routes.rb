@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  match '/users',   to: 'users#index',   via: 'get'
+  match '/users',   to: 'users#show',   via: 'get'
 
   resources :reservations
   resources :cars
