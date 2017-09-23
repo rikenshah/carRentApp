@@ -1,3 +1,4 @@
+<%= render 'dashboard/header' %>
 <p id="notice"><%= notice %></p>
 
 <h1>Reservations</h1>
@@ -18,15 +19,17 @@
   <tbody>
     <% @reservations.each do |reservation| %>
       <tr>
-        <td><%= reservation.user %></td>
-        <td><%= reservation.car %></td>
+        <td><%= reservation.user.email %></td>
+        <td><%= reservation.car.model %></td>
         <td><%= reservation.check_out %></td>
         <td><%= reservation.return %></td>
         <td><%= reservation.checked_out %></td>
         <td><%= reservation.returned %></td>
         <td><%= link_to 'Show', reservation %></td>
-        <td><%= link_to 'Edit', edit_reservation_path(reservation) %></td>
-        <td><%= link_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if is_admin_or_superadmin %>
+          <td><%= link_to 'Edit', edit_reservation_path(reservation) %></td>
+          <td><%= link_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
@@ -34,4 +37,7 @@
 
 <br>
 
-<%= link_to 'New Reservation', new_reservation_path %>
+<% if is_admin_or_superadmin %>
+  <%= link_to 'New Reservation', new_reservation_path %>
+<% end %>
+<%= render 'dashboard/links' %>

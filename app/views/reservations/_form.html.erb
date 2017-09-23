@@ -2,7 +2,6 @@
   <% if reservation.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(reservation.errors.count, "error") %> prohibited this reservation from being saved:</h2>
-
       <ul>
       <% reservation.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -11,15 +10,19 @@
     </div>
   <% end %>
 
+<% if is_admin_or_superadmin %>
   <div class="field">
     <%= form.label :user_id %>
-    <%= form.text_field :user_id, id: :reservation_user_id %>
+    <%= form.text_field :user_id, id: :reservation_user_id, :value => @user_id%>
   </div>
-
   <div class="field">
     <%= form.label :car_id %>
-    <%= form.text_field :car_id, id: :reservation_car_id %>
+    <%= form.text_field :car_id, id: :reservation_car_id, :value => @car_id %>
   </div>
+<% else %>
+    <%= form.hidden_field :user_id, :value => @user_id%>
+    <%= form.hidden_field :car_id, :value => @car_id%>
+<% end %>
 
   <div class="field">
     <%= form.label :check_out %>
@@ -31,15 +34,16 @@
     <%= form.datetime_select :return, id: :reservation_return %>
   </div>
 
+<% if is_admin_or_superadmin %>
   <div class="field">
     <%= form.label :checked_out %>
     <%= form.check_box :checked_out, id: :reservation_checked_out %>
   </div>
-
   <div class="field">
     <%= form.label :returned %>
     <%= form.check_box :returned, id: :reservation_returned %>
   </div>
+<% end %>
 
   <div class="actions">
     <%= form.submit %>

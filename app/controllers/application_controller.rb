@@ -16,15 +16,15 @@ class ApplicationController < ActionController::Base
 
 	private
 
-	def verify_is_admin
+	def is_admin
 		(current_user.nil?) ? redirect_to(root_path) : (redirect_to(root_path) unless current_user.admin?)
 	end
 
-	def verify_is_superadmin
+	def is_superadmin
 		(current_user.nil?) ? redirect_to(root_path) : (redirect_to(root_path) unless current_user.superadmin?)
 	end
 
-	def can_access_users
+	def is_admin_or_superadmin
 		(current_user.nil?) ? redirect_to(root_path) : (redirect_to(root_path) unless current_user.admin? or current_user.superadmin?)
 	end
 end

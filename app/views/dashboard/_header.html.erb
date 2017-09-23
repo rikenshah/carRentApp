@@ -1,0 +1,8 @@
+<h1>Dashboard</h1>
+<h2> Welcome
+	<% unless current_user.nil? %>
+		<%= current_user.email %>
+	<% end%></h2>
+<%= link_to "Home", root_path %>
+
+<br><br>

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :can_access_users
+  before_action :is_admin_or_superadmin
 
   def show
   	@users = User.where(admin: false, superadmin: false)
