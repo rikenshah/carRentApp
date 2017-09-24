@@ -36,12 +36,18 @@
         <%end%>
       </tr>
       <tr>
+        </br></br></br>
         <table border="1" cellpadding="0">
           <tbody >
-          <%= 7.times do %>
+          <% 7.times do |i|%>
               <tr height="20">
-                <%= 24.times do %>
-                    <td width="40"></td>
+                <% 24.times do |j|%>
+                    <% if @cararray[car.id][24*i + j] == 0%>
+                      <td onclick=showAlert(this) name="cell" width="40" data-shot_available="true" data-car_id=<%= car.id %> data-cell_number=<%= 24*i + j%> data-beg_time=<%= @current_bigining_time%>> </td>
+                    <% end %>
+                    <% if @cararray[car.id][24*i + j] == 1%>
+                        <td width="40" bgcolor="#483d8b" data-slow_available="false"></td>
+                    <% end %>
                 <% end %>
               </tr>
           <% end %>
@@ -49,11 +55,22 @@
         </table>
       </tr>
       <tr>
-        <!--<td colspan="7"><%= @carres%></td>-->
       </tr>
+      </br></br></br></br>
+      <!--<tr>-->
+        <!--<td colspan="7"><%= @cararray %></td>-->
+      <!--</tr>-->
     <% end %>
   </tbody>
 </table>
+
+<script>
+
+  function showAlert(cell){
+      cell.setAttribute("bgcolor","#ffaa00")
+  }
+
+</script>
 
 <br>
 <% if is_admin_or_superadmin%>
