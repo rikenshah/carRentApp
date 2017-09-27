@@ -43,7 +43,7 @@
               <tr height="20">
                 <% 24.times do |j|%>
                     <% if @cararray[car.id][24*i + j] == 0%>
-                      <td onclick=showAlert(this) name="cell" width="40" data-shot_available="true" data-car_id=<%= car.id %> data-cell_number=<%= 24*i + j%> data-beg_time=<%= @current_bigining_time%>> </td>
+                      <td onclick=cellClick(this) name="cell" width="40" data-shot_available="true" data-car_id=<%= car.id %> data-cell_number=<%= 24*i + j%> data-beg_time=<%= @current_bigining_time%>> </td>
                     <% end %>
                     <% if @cararray[car.id][24*i + j] == 1%>
                         <td width="40" bgcolor="#483d8b" data-slow_available="false"></td>
@@ -65,9 +65,10 @@
 </table>
 
 <script>
-
-  function showAlert(cell){
-      cell.setAttribute("bgcolor","#ffaa00")
+  var beginingCell;
+  var endingCell;
+  function cellClick(cell){
+      
   }
 
 </script>
