@@ -36,8 +36,8 @@ class ReservationsController < ApplicationController
   # GET /reservations/new
   def new
 	@user_id = current_user.id
-	logger.debug(params)
 	@car_id = params[:car_id]
+	logger.debug(params)
 	if current_user.has_reserved
 	  	format.html { redirect_to reservations_url, notice: 'Only one reservation per customer is allowed' }
 	 end
@@ -51,16 +51,7 @@ class ReservationsController < ApplicationController
   # POST /reservations
   # POST /reservations.json
   def create()
-	@c  = Car.find(@car_id)
-	# @c = Car.where(:id => @car_id).first
-	puts "Hello"
-	puts logger.debug(@c)
-	puts @c.id
-	puts @c.update_attributes({:status => 'reserved'})
-	puts @c.status
-	@c.save
 	@reservation = Reservation.new(reservation_params)
-	puts "Hello"
 	@check_out_time = DateTime.new(reservation_params["check_out(1i)"].to_i,
 					   reservation_params["check_out(2i)"].to_i,
 					   reservation_params["check_out(3i)"].to_i,
@@ -73,10 +64,6 @@ class ReservationsController < ApplicationController
 					   reservation_params["return(5i)"].to_i)
 	@difference_in_minutes = ((@return_time - @check_out_time)*24*60).to_i
 	if @difference_in_minutes<60 or @difference_in_minutes>600
-		# @car_id = params[:car_id]
-		# @c = Car.where(:id => @car_id).first
-		# @c.update_attributes({:status => 'available'})
-		# @c.save
 	  redirect_to '/cars', notice: 'Invalid time. Minimum for 1 hour, Maximum for 10 hours'
 	else
 	  respond_to do |format|
