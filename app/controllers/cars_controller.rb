@@ -7,17 +7,31 @@ class CarsController < ApplicationController
   # GET /cars.json
   def index
   @cars = Car.all
+  @current_bigining_time = Time.now.beginning_of_day
   @carres = Hash.new()
   @cars.each { |car|
+    Rails.logger.debug("Cars.each call thayu")
     @ress = Array.new()
     Reservation.all.each {|res_local|
       next unless car.id == res_local.car_id
       # puts @ress.length.to_s
       @carres[car.id] = Array.new() if @carres[car.id].nil?
       @carres[car.id].push(res_local) unless @carres[car.id].nil?
-      # puts @carres[car.id].length.to_s
     }
+    @carres[car.id] = @ress if @carres[car.id].nil?
   }
+  @cararray = Hash.new();
+  @carres.each { |key, value|
+    @cararray[key] = Array.new(168,0)
+    value.each{ |res|
+      startHours = ((res.check_out - Time.now.beginning_of_day) / 3600 ).round
+      endHours = ((res.return - Time.now.beginning_of_day) / 3600 ).round
+      (endHours - startHours + 1).times{ |i|
+        @cararray[key][startHours + i] = 1
+      }
+      # Rails.logger.debug("Hours: #{startHours.inspect} #{endHours.inspect}")
+    }
+  } 
   end
 
   # GET /cars/1
