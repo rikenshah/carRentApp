@@ -51,10 +51,6 @@ class ReservationsController < ApplicationController
 	  		format.html { redirect_to reservations_url, notice: 'Only one reservation per customer is allowed' }
 	 	end
 	else
-	  	@c = Car.find(params[:reservation][:car_id])
-	  	print params[:reservation][:car_id]
-	  	@c.status = "reserved"
-	  	@c.save
 		@reservation = Reservation.new(reservation_params)
 		@check_out_time = DateTime.new(reservation_params["check_out(1i)"].to_i,
 						   reservation_params["check_out(2i)"].to_i,
@@ -72,9 +68,13 @@ class ReservationsController < ApplicationController
 		else
 		  respond_to do |format|
 			if @reservation.save
-			  current_user.update :has_reserved => true
-			  format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' }
-			  format.json { render :show, status: :created, location: @reservation }
+				@c = Car.find(params[:reservation][:car_id])
+				print params[:reservation][:car_id]
+				@c.status = "reserved"
+				@c.save
+				current_user.update :has_reserved => true
+				format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' }
+				format.json { render :show, status: :created, location: @reservation }
 			else
 			  format.html { render :new }
 			  format.json { render json: @reservation.errors, status: :unprocessable_entity }
@@ -101,10 +101,16 @@ class ReservationsController < ApplicationController
   # DELETE /reservations/1
   # DELETE /reservations/1.json
   def destroy
-	@reservation.destroy
-	respond_to do |format|
-	  format.html { redirect_to reservations_url, notice: 'Reservation was successfully destroyed.' }
-	  format.json { head :no_content }
+	if @reservation.destroy
+	 	print "Hello"
+	 	@c = Car.find(@reservation.car_id)
+	 	@c.status = "available"
+	 	@c.save
+	 	current_user.update :has_reserved => false
+		respond_to do |format|
+		  format.html { redirect_to reservations_url, notice: 'Reservation was successfully destroyed.' }
+		  format.json { head :no_content }
+		end
 	end
   end
 
