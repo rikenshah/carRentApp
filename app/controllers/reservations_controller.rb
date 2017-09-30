@@ -16,9 +16,8 @@ class ReservationsController < ApplicationController
 		return_time = x.return
 		# Allowed 30 min flexibility
 		if (((Time.now-x.check_out)* 24 * 60).to_i <= 30) and (x.checked_out == false)
-			print "hello++++++++++++++++++++++++++++++++++++++++"	
+			x.can_checkout = true
 		end
-		x.can_checkout = true
 		
 		if x.checked_out == true and return_time >= (Time.now)
 			x.can_return = true
@@ -102,7 +101,6 @@ class ReservationsController < ApplicationController
   # DELETE /reservations/1.json
   def destroy
 	if @reservation.destroy
-	 	print "Hello"
 	 	@c = Car.find(@reservation.car_id)
 	 	@c.status = "available"
 	 	@c.save
@@ -115,18 +113,27 @@ class ReservationsController < ApplicationController
   end
 
   def check_out
-  	res_id = params[:res_id]
-  	car = params[:car]
-  	car.status = 'checked_out'
-  	format.html { redirect_to reservations_url, notice: 'Car was successfully checked_out' }
+  	@r = Reservation.find(params[:res_id])
+  	@r.checked_out = true
+  	@r.save
+  	@c = Car.find(params[:car_id])
+  	@c.status = 'checked_out'
+  	@c.save
+	respond_to do |format|
+	  	format.html { redirect_to reservations_url, notice: 'Car was successfully checked_out' }
+  	end
   end
 
-  def return
-  	res_id = params[:res_id]
-  	car = params[:car]
-  	car.status = 'available'
-  	puts res_id  
-  	format.html { redirect_to reservations_url, notice: 'Car was successfully returned' }
+  def return 
+  	@r = Reservation.find(params[:res_id])
+  	@r.checked_out = false
+  	@r.save
+  	@c = Car.find(params[:car_id])
+  	@c.status = 'available'
+  	@c.save
+	respond_to do |format|
+	  	format.html { redirect_to reservations_url, notice: 'Car was successfully returned' }
+  	end
   end
 
   private

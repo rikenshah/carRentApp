@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   match '/users',   to: 'users#show',   via: 'post'
-  match '/reservation/check_out',   to: 'reservations#check_out',   via: 'post'
-  match '/reservation/return',   to: 'reservations#return',   via: 'post'
+  match '/reservation/check_out',   to: 'reservations#check_out',   via: 'get'
+  match '/reservation/return',   to: 'reservations#return',   via: 'get'
   match '/users',   to: 'users#show',   via: 'get'
 
   resources :reservations
