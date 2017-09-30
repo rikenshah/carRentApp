@@ -21,7 +21,6 @@ class ReservationsController < ApplicationController
 		x.can_checkout = true
 		
 		if x.checked_out == true and return_time >= (Time.now)
-			print "hello++++++++++++++++++++++++++++++++++++++++"
 			x.can_return = true
 		end
 		# Compute can return
@@ -37,10 +36,6 @@ class ReservationsController < ApplicationController
   def new
 	@user_id = current_user.id
 	@car_id = params[:car_id]
-	logger.debug(params)
-	if current_user.has_reserved
-	  	format.html { redirect_to reservations_url, notice: 'Only one reservation per customer is allowed' }
-	 end
 	@reservation = Reservation.new
   end
 
@@ -51,31 +46,41 @@ class ReservationsController < ApplicationController
   # POST /reservations
   # POST /reservations.json
   def create()
-	@reservation = Reservation.new(reservation_params)
-	@check_out_time = DateTime.new(reservation_params["check_out(1i)"].to_i,
-					   reservation_params["check_out(2i)"].to_i,
-					   reservation_params["check_out(3i)"].to_i,
-					   reservation_params["check_out(4i)"].to_i,
-					   reservation_params["check_out(5i)"].to_i)
-	@return_time = DateTime.new(reservation_params["return(1i)"].to_i,
-					   reservation_params["return(2i)"].to_i,
-					   reservation_params["return(3i)"].to_i,
-					   reservation_params["return(4i)"].to_i,
-					   reservation_params["return(5i)"].to_i)
-	@difference_in_minutes = ((@return_time - @check_out_time)*24*60).to_i
-	if @difference_in_minutes<60 or @difference_in_minutes>600
-	  redirect_to '/cars', notice: 'Invalid time. Minimum for 1 hour, Maximum for 10 hours'
+  	if current_user.has_reserved
+	  	respond_to do |format|
+	  		format.html { redirect_to reservations_url, notice: 'Only one reservation per customer is allowed' }
+	 	end
 	else
-	  respond_to do |format|
-		if @reservation.save
-		  current_user.update_attributes(:has_reserved => true)
-		  format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' }
-		  format.json { render :show, status: :created, location: @reservation }
+	  	@c = Car.find(params[:reservation][:car_id])
+	  	print params[:reservation][:car_id]
+	  	@c.status = "reserved"
+	  	@c.save
+		@reservation = Reservation.new(reservation_params)
+		@check_out_time = DateTime.new(reservation_params["check_out(1i)"].to_i,
+						   reservation_params["check_out(2i)"].to_i,
+						   reservation_params["check_out(3i)"].to_i,
+						   reservation_params["check_out(4i)"].to_i,
+						   reservation_params["check_out(5i)"].to_i)
+		@return_time = DateTime.new(reservation_params["return(1i)"].to_i,
+						   reservation_params["return(2i)"].to_i,
+						   reservation_params["return(3i)"].to_i,
+						   reservation_params["return(4i)"].to_i,
+						   reservation_params["return(5i)"].to_i)
+		@difference_in_minutes = ((@return_time - @check_out_time)*24*60).to_i
+		if @difference_in_minutes<60 or @difference_in_minutes>600
+		  redirect_to '/cars', notice: 'Invalid time. Minimum for 1 hour, Maximum for 10 hours'
 		else
-		  format.html { render :new }
-		  format.json { render json: @reservation.errors, status: :unprocessable_entity }
+		  respond_to do |format|
+			if @reservation.save
+			  current_user.update :has_reserved => true
+			  format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' }
+			  format.json { render :show, status: :created, location: @reservation }
+			else
+			  format.html { render :new }
+			  format.json { render json: @reservation.errors, status: :unprocessable_entity }
+			end
+		  end
 		end
-	  end
 	end
   end
 

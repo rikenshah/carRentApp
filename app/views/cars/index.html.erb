@@ -21,7 +21,11 @@
   <tbody>
     <% @cars.each do |car| %>
       <tr>
-        <td><%= car.status %></td>
+        <% if is_admin_or_superadmin %>
+          <td><%= car.status %></td>
+        <%elsif car.status != 'available'%>
+            <% next %>
+        <%end%>
         <td><%= car.model %></td>
         <td><%= car.manufacturer %></td>
         <td><%= car.style %></td>
@@ -29,7 +33,7 @@
         <td><%= car.location %></td>
         <td><%= car.licence_plate %></td>
         <td><%= link_to 'Show', car %></td>
-        <td><%= link_to "Reserve", controller: "reservations", action: "new", car_id: car.id%></td>
+        <td><%= link_to "Reserve", new_reservation_path(:car_id => car.id)%></td>
         <% if is_admin_or_superadmin %>
           <td><%= link_to 'Edit', edit_car_path(car) %></td>
           <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
