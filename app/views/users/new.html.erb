@@ -19,18 +19,20 @@
 	<%= f.password_field :password_confirmation, :required => true,autocomplete: "off" %>
   </div>
 
-
+ <% if is_admin_or_superadmin %>
   <div class="field">
 	<%= f.label :admin %>
 	<%= f.check_box :admin, id: :users_admin%>
   </div>
-
+<%end%>
+ <% if is_superadmin %>
   <div class="field">
 	<%= f.label :superadmin %>
 	<%= f.check_box :superadmin, id: :users_superadmin%>
   </div>
+<%end%>
 
   <div class="actions">
-	<%= f.submit "Sign up" %>
+	<%= f.submit "Create User" %>
   </div>
 <% end %>

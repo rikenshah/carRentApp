@@ -21,7 +21,7 @@
 	<%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
 
-
+<% if false %>
   <div class="field">
 	<%= f.label :admin %>
 	<%= f.check_box :admin, id: :users_admin %>
@@ -31,7 +31,7 @@
 	<%= f.label :superadmin %>
 	<%= f.check_box :superadmin, id: :users_superadmin %>
   </div>
-
+<%end%>
   <div class="actions">
 	<%= f.submit "Sign up" %>
   </div>
