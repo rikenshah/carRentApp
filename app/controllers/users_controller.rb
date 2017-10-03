@@ -38,7 +38,9 @@ class UsersController < ApplicationController
 	end
 
 def show
-	redirect_to '/admin/users'
+	# print "Hello"
+	# logger.debug(params)
+	@user = User.find(params[:id])
 end
 
   def create
@@ -51,6 +53,21 @@ end
 
   end
 
+  def destroy
+  	print "hello"
+  	logger.debug(params)
+  	@user = @user.find(params[:id])
+	@r = Reservation.find(@user.id)
+  	if @user.destroy
+	 	@c = Car.find(@r.car_id)
+	 	@c.status = "available"
+	 	@c.save
+	 	@r.destroy
+	 	 respond_to do |format|  ## Add this
+		  	 format.html { redirect_to users_url, notice: 'User was successfully deleted' }
+	  	end
+	 end
+  end
 private
     def allow_without_password
       if params[:user][:password].blank? && params[:user][:password_confirmation].blank?

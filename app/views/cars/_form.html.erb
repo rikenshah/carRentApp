@@ -10,11 +10,13 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :status %>
-    <%= form.text_field :status, id: :car_status %>
-  </div>
+  
+  <% if false%>
+    <div class="field">
+      <%= form.label :status %>
+      <%= form.text_field :status, id: :car_status %>
+    </div>
+  <% end %>
 
   <div class="field">
     <%= form.label :model %>

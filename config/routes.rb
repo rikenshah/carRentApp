@@ -6,8 +6,9 @@ Rails.application.routes.draw do
   }
 
   scope "/admin" do
-    resources :users
+    get '/users/show', to: 'users#show'
     post '/users/savenew', to: 'users#savenew'
+    resources :users
   end
 
   match '/reservation/check_out',   to: 'reservations#check_out',   via: 'get'

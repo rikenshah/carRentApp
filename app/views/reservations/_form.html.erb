@@ -34,16 +34,18 @@
     <%= form.datetime_select :return, id: :reservation_return %>
   </div>
 
-<% if is_admin_or_superadmin %>
-  <div class="field">
-    <%= form.label :checked_out %>
-    <%= form.check_box :checked_out, id: :reservation_checked_out %>
-  </div>
-  <div class="field">
-    <%= form.label :returned %>
-    <%= form.check_box :returned, id: :reservation_returned %>
-  </div>
-<% end %>
+<%if false%>
+  <% if is_admin_or_superadmin %>
+    <div class="field">
+      <%= form.label :checked_out %>
+      <%= form.check_box :checked_out, id: :reservation_checked_out %>
+    </div>
+    <div class="field">
+      <%= form.label :returned %>
+      <%= form.check_box :returned, id: :reservation_returned %>
+    </div>
+  <% end %>
+  <% end %>
 
   <div class="actions">
     <%= form.submit %>

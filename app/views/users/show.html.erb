@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User Email:</strong>
+  <%= @user.email %>
+</p>
+         <%= link_to 'Delete', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
+
+<p>
+  <strong>User Checkout history</strong>
+  <%= @user_check_out_hostory %>
+</p>
+
+<%= link_to 'Back', reservations_path %>

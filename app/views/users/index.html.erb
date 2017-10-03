@@ -4,7 +4,7 @@
 	<h3>Welcome Super Admin</h3>
 	<h4>List of superadmins</h4>
 		<% @superadmins.each do |superadmin| %>
-			<%= superadmin.email %> <br/>
+			<%= superadmin.email %> <%= link_to 'Show', user %> <br/>
 		<% end %>
 	<br>
 <% end %>
@@ -12,12 +12,12 @@
 	<h3>Welcome Admin</h3>
 	<h4>List of Admins</h4>
 		<% @admins.each do |admin| %>
-			<%= admin.email %> <br/>
+			<%= admin.email %> <%= link_to("Show", users_show_path(:id => admin.id)) %><br/>
 		<% end %>
 		<br>
 	<h4> List of Users </h4>
 		<% @users.each do |user| %>
-		  <%= user.email %><br/>
+		  <%= user.email %><%= link_to("Show", users_show_path(:id => user.id)) %><br/>
 		<% end %>
 	<br>
 <% end %>
