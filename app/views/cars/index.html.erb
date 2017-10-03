@@ -3,9 +3,18 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Cars</h1>
+<script>(document).ready(function() {
+('#example').DataTable();
+} )</script>
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for cars..">
 
-<table>
+<table id="myTable">
   <thead>
+
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">-->
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css"/>-->
+
     <tr>
       <th>Status</th>
       <th>Model</th>
@@ -39,25 +48,25 @@
           <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <%end%>
       </tr>
-      <tr>
+      <!--<tr>-->
         </br></br></br>
-        <table border="1" cellpadding="0">
-          <tbody >
-          <% 7.times do |i|%>
-              <tr height="20">
-                <% 24.times do |j|%>
-                    <% if @cararray[car.id][24*i + j] == 0%>
-                      <td onclick=cellClick(this) name="cell" width="40" data-shot_available="true" data-car_id=<%= car.id %> data-cell_number=<%= 24*i + j%> data-beg_time=<%= @current_bigining_time%>> </td>
-                    <% end %>
-                    <% if @cararray[car.id][24*i + j] == 1%>
-                        <td width="40" bgcolor="#483d8b" data-slow_available="false"></td>
-                    <% end %>
-                <% end %>
-              </tr>
-          <% end %>
-          </tbody>
-        </table>
-      </tr>
+        <!--<table border="1" cellpadding="0">-->
+          <!--<tbody >-->
+          <!--<% 7.times do |i|%>-->
+              <!--<tr height="20">-->
+                <!--<% 24.times do |j|%>-->
+                    <!--<% if @cararray[car.id][24*i + j] == 0%>-->
+                      <!--<td onclick=cellClick(this) name="cell" width="40" data-shot_available="true" data-car_id=<%= car.id %> data-cell_number=<%= 24*i + j%> data-beg_time=<%= @current_bigining_time%>> </td>-->
+                    <!--<% end %>-->
+                    <!--<% if @cararray[car.id][24*i + j] == 1%>-->
+                        <!--<td width="40" bgcolor="#483d8b" data-slow_available="false"></td>-->
+                    <!--<% end %>-->
+                <!--<% end %>-->
+              <!--</tr>-->
+          <!--<% end %>-->
+          <!--</tbody>-->
+        <!--</table>-->
+      <!--</tr>-->
       <tr>
       </tr>
       </br></br></br></br>
@@ -75,6 +84,66 @@
       cell.bgColor = '#ff9900';
   }
 
+</script>
+
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 1; i < tr.length; i++) {
+            var shouldShow = false;
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    shouldShow = true;
+//                    tr[i].style.display = "";
+                } else {
+//                    tr[i].style.display = "none";
+                }
+            }
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    shouldShow = true;
+                }
+            }
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    shouldShow = true;
+                }
+            }
+            td = tr[i].getElementsByTagName("td")[3];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    shouldShow = true;
+                }
+            }
+            td = tr[i].getElementsByTagName("td")[5];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    shouldShow = true;
+                }
+            }
+            td = tr[i].getElementsByTagName("td")[6];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    shouldShow = true;
+                }
+            }
+            if (shouldShow){
+                tr[i].style.display = "";
+            }else{
+                tr[i].style.display = "none";
+            }
+        }
+    }
 </script>
 
 <br>
