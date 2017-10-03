@@ -13,15 +13,15 @@
 ActiveRecord::Schema.define(version: 20170930041119) do
 
   create_table "cars", force: :cascade do |t|
+    t.string "status", default: "available"
     t.string "model"
     t.string "manufacturer"
+    t.string "style"
     t.float "rent"
     t.string "location"
+    t.string "licence_plate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status", default: "available"
-    t.string "style"
-    t.integer "licence_plate"
   end
 
   create_table "reservations", force: :cascade do |t|

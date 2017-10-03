@@ -26,6 +26,7 @@ class CarsController < ApplicationController
     value.each{ |res|
       startHours = ((res.check_out - Time.now.beginning_of_day) / 3600 ).round
       endHours = ((res.return - Time.now.beginning_of_day) / 3600 ).round
+      return if startHours < 0 or endHours < 0
       (endHours - startHours + 1).times{ |i|
         @cararray[key][startHours + i] = 1
       }

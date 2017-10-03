@@ -65,6 +65,7 @@ class ReservationsController < ApplicationController
 		if @difference_in_minutes<60 or @difference_in_minutes>600
 		  redirect_to '/cars', notice: 'Invalid time. Minimum for 1 hour, Maximum for 10 hours'
 		else
+			# check if valid reservation
 		  respond_to do |format|
 			if @reservation.save
 				@c = Car.find(params[:reservation][:car_id])
