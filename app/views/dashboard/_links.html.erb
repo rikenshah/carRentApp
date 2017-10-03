@@ -2,10 +2,10 @@
 	<% if user_signed_in? %>
 		<% if is_superadmin %>
 			<h3>Super Admin : Links</h3>
-			<br><%= link_to("See all Members", "/users") %><br>
+			<br><%= link_to("See all Members", "/admin/users") %><br>
 		<% elsif is_admin %>
 			<h3>Admin : Links</h3>
-			<br><%= link_to("See all Members", "/users") %><br>			
+			<br><%= link_to("See all Members", "/admin/users") %><br>			
 		<% else %>
 			<h3>Customer : Links</h3>
 		<% end %>
