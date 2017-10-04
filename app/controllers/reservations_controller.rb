@@ -8,6 +8,8 @@ class ReservationsController < ApplicationController
   def index
 	if is_admin_or_superadmin
 	  @reservations = Reservation.all
+	  # print "hello"
+	  # print @reservations.first.user_id
 	else
 	  puts current_user.id
 	  @reservations = Reservation.where(:user_id => current_user.id)
