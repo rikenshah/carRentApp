@@ -4,19 +4,22 @@
 <% if is_superadmin %>
 	<h4>List of superadmins</h4>
 		<% @superadmins.each do |superadmin| %>
-			<%= superadmin.email %> <%= link_to("Show", users_show_path(:id => superadmin.id)) %> <br/>
+			id : <%= superadmin.id%>
+			&nbsp; email : <%= superadmin.email %> <%= link_to("Show", users_show_path(:id => superadmin.id)) %> <br/>
 		<% end %>
 	<br>
 <% end %>
 <% if is_admin_or_superadmin %>
 	<h4>List of Admins</h4>
 		<% @admins.each do |admin| %>
-			<%= admin.email %> <%= link_to("Show", users_show_path(:id => admin.id)) %><br/>
+			id : <%= admin.id%>
+			&nbsp;email :<%= admin.email %> <%= link_to("Show", users_show_path(:id => admin.id)) %><br/>
 		<% end %>
 		<br>
 	<h4> List of Users </h4>
 		<% @users.each do |user| %>
-		  <%= user.email %><%= link_to("Show", users_show_path(:id => user.id)) %><br/>
+			id : <%= user.id%>
+		  &nbsp; email : <%= user.email %><%= link_to("Show", users_show_path(:id => user.id)) %><br/>
 		<% end %>
 	<br>
 <% end %>

@@ -82,10 +82,17 @@ class CarsController < ApplicationController
   # DELETE /cars/1
   # DELETE /cars/1.json
   def destroy
-    @car.destroy
-    respond_to do |format|
-      format.html { redirect_to cars_url, notice: 'Car was successfully destroyed.' }
-      format.json { head :no_content }
+    if @car.destroy
+      @r = Reservation.where(:car_id => params[:id]).first
+      unless @r.blank?
+        @u = User.find(@r.user_id)
+        @u.update :has_reserved => false
+        @r.destroy
+      end
+      respond_to do |format|
+        format.html { redirect_to cars_url, notice: 'Car was successfully destroyed.' }
+        format.json { head :no_content }
+      end
     end
   end
 

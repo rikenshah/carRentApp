@@ -27,4 +27,31 @@ class ApplicationController < ActionController::Base
 	def is_admin_or_superadmin
 		(current_user.nil?) ? redirect_to(root_path) : (redirect_to(root_path) unless current_user.admin? or current_user.superadmin?)
 	end
+
+	def update_car_status
+		@reservations = Reservation.all
+		unless @reservations.blank?
+			@reservations.each do |res|
+				unless res.checked_out and ((Time.now - res.check_out)/60) > 30
+					# Cancel reservation
+					if res.destroy
+						@c = Car.find(@res.car_id)
+						@c.status = "available"
+						@c.save
+						@u = User.find(@reservation.user_id)
+						@u.update :has_reserved => false
+					end
+				end
+
+				if res.checked_out and !res.returned and ((Time.now-res.return)/60)>=0
+					# Make car available
+					@c = Car.find(@res.car_id)
+					@c.status = "available"
+					@c.save
+					@u = User.find(@reservation.user_id)
+					@u.update :has_reserved => false
+				end
+			end
+		end
+	end
 end

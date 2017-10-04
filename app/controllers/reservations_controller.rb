@@ -114,7 +114,8 @@ class ReservationsController < ApplicationController
 	 	@c = Car.find(@reservation.car_id)
 	 	@c.status = "available"
 	 	@c.save
-	 	current_user.update :has_reserved => false
+	 	@u = User.find(@reservation.user_id)
+	 	@u.update :has_reserved => false
 		respond_to do |format|
 		  format.html { redirect_to reservations_url, notice: 'Reservation was successfully destroyed.' }
 		  format.json { head :no_content }
