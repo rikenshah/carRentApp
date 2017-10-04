@@ -1,6 +1,6 @@
-<%= render 'dashboard/header' %>
-<p id="notice"><%= notice %></p>
 
+<p id="notice"><%= notice %></p>
+<div class="container container-fluid">
 <p>
   <strong>Status:</strong>
   <%= @car.status %>
@@ -38,5 +38,3 @@
 
 <%= link_to 'Edit', edit_car_path(@car) %> |
 <%= link_to 'Back', cars_path %>
-
-<%= render 'dashboard/links'%>

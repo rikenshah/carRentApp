@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Oodd</title>
+    <title>SwiftCar</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
+    <%= render 'dashboard/header' %>
 
   <body>
+    <div class="container container-fluid">
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-
+    <h1>SwiftCar</h1>
+    <h4> Welcome
+      <% unless current_user.nil? %>
+        <%= current_user.email %>
+      <% end%></h4>
+    <%= link_to "Home", root_path %>
 
   <%= yield %>
+  
+  </div>
   </body>
+    <%= render 'dashboard/links' %>
+
 </html>

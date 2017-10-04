@@ -60,6 +60,7 @@ def show
 			@temp[:return] = r.return
 			@temp[:checked_out] = r.checked_out
 			@temp[:returned] = r.returned
+			@temp[:rent] = r.rent
 			@total_rent = @total_rent + r.rent
 			@user_checkout_history[r.id] = @temp
 		end

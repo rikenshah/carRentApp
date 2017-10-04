@@ -1,20 +1,25 @@
-<br><br>
-	<% if user_signed_in? %>
-		<% if is_admin_or_superadmin %>
-			<h3>Admin/SuperAdmin : Links</h3>
-			<br><%= link_to("Create new member", "/admin/users/new") %><br>
-			<br><%= link_to("See all Members", "/admin/users") %><br>			
-		<% else %>
-			<h3>Customer : Links</h3>
+
+	<div class="container">
+		<% if user_signed_in? %>
+			<% if is_admin_or_superadmin %>
+				<h3>Admin/SuperAdmin : Links</h3>
+				<br><%= link_to("Create new member", "/admin/users/new") %><br>
+				<br><%= link_to("See all Members", "/admin/users") %><br>			
+			<% else %>
+				<h3>Customer : Links</h3>
+			<% end %>
+			<%= link_to "Profile", edit_user_registration_path %>
+			<br><%= link_to "See all Cars", cars_path %>
+			<br><%= link_to "See all Reservations", reservations_path %>   
+			<br><br><br><br>
+			<%= link_to("CheckOut History", checkout_history_path()) %>   <br>
+			<%= link_to('Sign Out', destroy_user_session_path, method: :delete) %> 
+		<% else %>		
+				<br><br><br>
+				<br><%= link_to('Sign In', new_user_session_path)  %>
+				<br><%= link_to("Sign Up", new_user_registration_path) %>
 		<% end %>
-		<%= link_to "Profile", edit_user_registration_path %>
-		<br><%= link_to "See all Cars", cars_path %>
-		<br><%= link_to "See all Reservations", reservations_path %>   
-		<br><br><br><br>
-		<%= link_to("CheckOut History", checkout_history_path()) %>   <br>
-		<%= link_to('Sign Out', destroy_user_session_path, method: :delete) %> 
-	<% else %>		
-			<br><br><br>
-			<br><%= link_to('Sign In', new_user_session_path)  %>
-			<br><%= link_to("Sign Up", new_user_registration_path) %>
-	<% end %>
+	</div>
+
+</body>
+</html>
