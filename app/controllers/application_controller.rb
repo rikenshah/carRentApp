@@ -32,23 +32,23 @@ class ApplicationController < ActionController::Base
 		@reservations = Reservation.all
 		unless @reservations.blank?
 			@reservations.each do |res|
-				unless res.checked_out and ((Time.now - res.check_out)/60) > 30
+				if !res.checked_out and ((Time.now - res.check_out)/60) > 30
 					# Cancel reservation
 					if res.destroy
-						@c = Car.find(@res.car_id)
+						@c = Car.find(res.car_id)
 						@c.status = "available"
 						@c.save
-						@u = User.find(@reservation.user_id)
+						@u = User.find(res.user_id)
 						@u.update :has_reserved => false
 					end
 				end
 
 				if res.checked_out and !res.returned and ((Time.now-res.return)/60)>=0
 					# Make car available
-					@c = Car.find(@res.car_id)
+					@c = Car.find(res.car_id)
 					@c.status = "available"
 					@c.save
-					@u = User.find(@reservation.user_id)
+					@u = User.find(res.user_id)
 					@u.update :has_reserved => false
 				end
 			end

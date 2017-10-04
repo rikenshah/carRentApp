@@ -16,8 +16,10 @@
     <!--<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css"/>-->
 
     <tr>
+      <% if is_admin_or_superadmin %>
       <th>Car Id </th>
-      <th>Status</th>
+        <th>Status</th>
+      <%end%>
       <th>Model</th>
       <th>Manufacturer</th>
       <th>Style</th>
@@ -32,8 +34,9 @@
     <% unless @cars == nil %>
     <% @cars.each do |car| %>
       <tr>
-        <td><%= car.id %></td>
+        
         <% if is_admin_or_superadmin %>
+          <td><%= car.id %></td>
           <td><%= car.status %></td>
         <%elsif car.status != 'available'%>
             <% next %>

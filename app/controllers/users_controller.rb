@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   # before_action :authenticate_user!
   before_action :is_admin_or_superadmin, except: [:new, :create]
   before_action :allow_without_password, only: [:update]
+  before_action :update_car_status
   skip_before_action :verify_authenticity_token
 
  def index

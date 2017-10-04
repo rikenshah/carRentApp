@@ -2,6 +2,7 @@ class ReservationsController < ApplicationController
   include ApplicationHelper
   before_action :set_reservation, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :update_car_status
 
   # GET /reservations
   # GET /reservations.json
