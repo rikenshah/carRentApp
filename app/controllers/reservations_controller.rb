@@ -22,7 +22,7 @@ class ReservationsController < ApplicationController
 			x.can_checkout = true
 		end
 		
-		if x.checked_out == true and return_time >= (Time.now)
+		if x.checked_out == true and x.returned == false and return_time >= (Time.now)
 			x.can_return = true
 		end
 		# Compute can return
@@ -82,6 +82,8 @@ class ReservationsController < ApplicationController
 				print params[:reservation][:car_id]
 				@c.status = "reserved"
 				@c.save
+				@reservation.rent = @difference_in_minutes*@c.rent/60
+				@reservation.save
 				@u.update :has_reserved => true
 				format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' }
 				format.json { render :show, status: :created, location: @reservation }
@@ -143,6 +145,8 @@ class ReservationsController < ApplicationController
   	@c = Car.find(params[:car_id])
   	@c.status = 'available'
   	@c.save
+  	@u = User.find(params[:user_id])
+ 	@u.update :has_reserved => false
 	respond_to do |format|
 	  	format.html { redirect_to reservations_url, notice: 'Car was successfully returned' }
   	end
@@ -151,6 +155,7 @@ class ReservationsController < ApplicationController
   def checkhistory
 	@user_reservations = Reservation.where(:user_id => current_user.id)
 	@user_checkout_history = {}
+	@total_rent = 0
 	unless @user_reservations.empty?
 	  @user_reservations.each.with_index do |r,index|
 	    print r.car_id
@@ -161,6 +166,7 @@ class ReservationsController < ApplicationController
 	    @temp[:return] = r.return
 	    @temp[:checked_out] = r.checked_out
 	    @temp[:returned] = r.returned
+	    @total_rent = @total_rent + r.rent
 	    @user_checkout_history[r.id] = @temp
 	  end
 	end

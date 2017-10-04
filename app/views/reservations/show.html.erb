@@ -32,6 +32,11 @@
   <%= @reservation.returned %>
 </p>
 
+<p>
+  <strong>Rent:</strong>
+  <%= @reservation.rent %>
+</p>
+
 <%= link_to 'Edit', edit_reservation_path(@reservation) %> |
 <%= link_to 'Back', reservations_path %>
 

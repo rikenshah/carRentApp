@@ -49,6 +49,7 @@ def show
 	@user = User.find(params[:id])
 	@user_reservations = Reservation.where(:user_id => @user.id)
 	@user_checkout_history = {}
+	@total_rent = 0
 	unless @user_reservations.empty?
 		@user_reservations.each.with_index do |r,index|
 			print r.car_id
@@ -59,6 +60,7 @@ def show
 			@temp[:return] = r.return
 			@temp[:checked_out] = r.checked_out
 			@temp[:returned] = r.returned
+			@total_rent = @total_rent + r.rent
 			@user_checkout_history[r.id] = @temp
 		end
 	end

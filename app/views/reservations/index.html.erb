@@ -12,6 +12,7 @@
       <th>Return</th>
       <th>Checked out</th>
       <th>Returned</th>
+      <th>Rent</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -25,7 +26,8 @@
           <td><%= reservation.check_out %></td>
           <td><%= reservation.return %></td>
           <td><%= reservation.checked_out %></td>
-          <td><%= reservation.returned %></td>          
+          <td><%= reservation.returned %></td>  
+          <td><%= reservation.rent %></td>        
           <td><%= link_to 'Show', reservation %></td>
           
           <td>
@@ -35,7 +37,7 @@
           </td> 
           <td>
             <% if reservation.can_return and reservation.checked_out%>
-                <%= link_to("Return", reservation_return_path(:res_id => reservation.id, :car_id => reservation.car.id), data: { confirm: "Are you sure?"}) %>
+                <%= link_to("Return", reservation_return_path(:res_id => reservation.id, :car_id => reservation.car.id, :user_id => reservation.user.id), data: { confirm: "Are you sure?"}) %>
             <% end %>
           </td>     
           <% if is_admin_or_superadmin %>
