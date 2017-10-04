@@ -17,7 +17,7 @@ class ReservationsController < ApplicationController
 	@reservations.each do |x| 
 		return_time = x.return
 		# Allowed 30 min flexibility
-		if (((Time.now-x.check_out)* 24 * 60).to_i <= 30) and (x.checked_out == false)
+		if (((Time.now-x.check_out)/ 60).to_i <= 30) and (x.checked_out == false)
 			x.can_checkout = true
 		end
 		
@@ -136,7 +136,7 @@ class ReservationsController < ApplicationController
 
   def return 
   	@r = Reservation.find(params[:res_id])
-  	@r.checked_out = false
+  	@r.returned = true
   	@r.save
   	@c = Car.find(params[:car_id])
   	@c.status = 'available'

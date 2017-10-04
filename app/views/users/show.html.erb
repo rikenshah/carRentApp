@@ -1,11 +1,13 @@
+
 <p id="notice"><%= notice %></p>
 
 <p>
   <strong>User Email:</strong>
   <%= @user.email %>
 </p>
+	<%unless @user.superadmin%>
          <%= link_to 'Delete', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
-
+	<%end%>
 <p>
   <strong>User Checkout history</strong>
   <% @user_checkout_history.each do |u| %>
