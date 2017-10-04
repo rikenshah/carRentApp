@@ -28,6 +28,7 @@
   </thead>
 
   <tbody>
+    <% unless @cars == nil %>
     <% @cars.each do |car| %>
       <tr>
         <% if is_admin_or_superadmin %>
@@ -42,7 +43,7 @@
         <td><%= car.location %></td>
         <td><%= car.licence_plate %></td>
         <td><%= link_to 'Show', car %></td>
-        <td><%= link_to "Reserve", new_reservation_path(:car_id => car.id)%></td>
+        <td><%= link_to "Reserve", new_reservation_path(:car_id => car.id, :user_id => current_user.id)%></td>
         <% if is_admin_or_superadmin %>
           <td><%= link_to 'Edit', edit_car_path(car) %></td>
           <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -73,6 +74,7 @@
       <!--<tr>-->
         <!--<td colspan="7"><%= @cararray %></td>-->
       <!--</tr>-->
+    <% end %>
     <% end %>
   </tbody>
 </table>

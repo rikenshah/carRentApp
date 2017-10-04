@@ -33,7 +33,7 @@ class ReservationsController < ApplicationController
 
   # GET /reservations/new
   def new
-	@user_id = current_user.id
+	@user_id = params[:user_id]
 	@car_id = params[:car_id]
 	@reservation = Reservation.new
   end
@@ -45,7 +45,14 @@ class ReservationsController < ApplicationController
   # POST /reservations
   # POST /reservations.json
   def create()
-  	if current_user.has_reserved
+  	if reservation_params[:user_id].empty?
+  		@uid = current_user.id
+  	else
+  		@uid = reservation_params[:user_id]
+  	end
+  	print @uid
+  	@u = User.find(@uid)
+  	if @u.has_reserved and !is_admin_or_superadmin
 	  	respond_to do |format|
 	  		format.html { redirect_to reservations_url, notice: 'Only one reservation per customer is allowed' }
 	 	end
@@ -72,7 +79,7 @@ class ReservationsController < ApplicationController
 				print params[:reservation][:car_id]
 				@c.status = "reserved"
 				@c.save
-				current_user.update :has_reserved => true
+				@u.update :has_reserved => true
 				format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' }
 				format.json { render :show, status: :created, location: @reservation }
 			else
@@ -136,6 +143,26 @@ class ReservationsController < ApplicationController
 	  	format.html { redirect_to reservations_url, notice: 'Car was successfully returned' }
   	end
   end
+
+  def checkhistory
+	@user_reservations = Reservation.where(:user_id => current_user.id)
+	@user_checkout_history = {}
+	unless @user_reservations.empty?
+	  @user_reservations.each.with_index do |r,index|
+	    print r.car_id
+	    @c = Car.find(r.car_id)
+	    @temp = {}
+	    @temp[:car_model] = @c.model
+	    @temp[:check_out] = r.check_out
+	    @temp[:return] = r.return
+	    @temp[:checked_out] = r.checked_out
+	    @temp[:returned] = r.returned
+	    @user_checkout_history[r.id] = @temp
+	  end
+	end
+	print "hello"
+	print @user_checkout_history
+end
 
   private
 	# Use callbacks to share common setup or constraints between actions.

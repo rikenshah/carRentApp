@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   match '/reservation/check_out',   to: 'reservations#check_out',   via: 'get'
   match '/reservation/return',   to: 'reservations#return',   via: 'get'
+  match '/checkout/history', to: 'reservations#checkhistory', 'via': 'get'
   resources :reservations
 
   resources :cars

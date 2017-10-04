@@ -17,30 +17,32 @@
   </thead>
 
   <tbody>
-    <% @reservations.each do |reservation| %>
-      <tr>
-        <td><%= reservation.user.email %></td>
-        <td><%= reservation.car.model %></td>
-        <td><%= reservation.check_out %></td>
-        <td><%= reservation.return %></td>
-        <td><%= link_to 'Show', reservation %></td>
-        
-        <td>
-          <% if reservation.can_checkout and !reservation.checked_out%>
-              <%= link_to "Check Out", reservation_check_out_path(:res_id => reservation.id, :car_id => reservation.car.id), data: {confirm: "Are you sure?"} %>
+    <% unless @reservations.blank? %>
+      <% @reservations.each do |reservation| %>
+        <tr>
+          <td><%= reservation.user.email %></td>
+          <td><%= reservation.car.model %></td>
+          <td><%= reservation.check_out %></td>
+          <td><%= reservation.return %></td>
+          <td><%= link_to 'Show', reservation %></td>
+          
+          <td>
+            <% if reservation.can_checkout and !reservation.checked_out%>
+                <%= link_to "Check Out", reservation_check_out_path(:res_id => reservation.id, :car_id => reservation.car.id), data: {confirm: "Are you sure?"} %>
+            <% end %>
+          </td> 
+          <td>
+            <% if reservation.can_return and reservation.checked_out%>
+                <%= link_to("Return", reservation_return_path(:res_id => reservation.id, :car_id => reservation.car.id), data: { confirm: "Are you sure?"}) %>
+            <% end %>
+          </td>     
+          <% if is_admin_or_superadmin %>
+            <td><%= link_to 'Edit', edit_reservation_path(reservation) %></td>
           <% end %>
-        </td> 
-        <td>
-          <% if reservation.can_return and reservation.checked_out%>
-              <%= link_to("Return", reservation_return_path(:res_id => reservation.id, :car_id => reservation.car.id), data: { confirm: "Are you sure?"}) %>
-          <% end %>
-        </td>     
-        <% if is_admin_or_superadmin %>
-          <td><%= link_to 'Edit', edit_reservation_path(reservation) %></td>
-        <% end %>
-         <td><%= link_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
+           <td><%= link_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    <%end%>
   </tbody>
 </table>
 

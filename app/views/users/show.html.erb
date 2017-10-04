@@ -8,7 +8,9 @@
 
 <p>
   <strong>User Checkout history</strong>
-  <%= @user_check_out_hostory %>
+  <% @user_checkout_history.each do |u| %>
+	<%= u %>
+  <% end %>
 </p>
 
 <%= link_to 'Back', reservations_path %>

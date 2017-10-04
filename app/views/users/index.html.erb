@@ -1,15 +1,14 @@
+<%= render 'dashboard/header' %>
 <h1>Users#index</h1>
 <p>Find me in app/views/users/index.html.erb</p>
 <% if is_superadmin %>
-	<h3>Welcome Super Admin</h3>
 	<h4>List of superadmins</h4>
 		<% @superadmins.each do |superadmin| %>
-			<%= superadmin.email %> <%= link_to 'Show', user %> <br/>
+			<%= superadmin.email %> <%= link_to("Show", users_show_path(:id => superadmin.id)) %> <br/>
 		<% end %>
 	<br>
 <% end %>
 <% if is_admin_or_superadmin %>
-	<h3>Welcome Admin</h3>
 	<h4>List of Admins</h4>
 		<% @admins.each do |admin| %>
 			<%= admin.email %> <%= link_to("Show", users_show_path(:id => admin.id)) %><br/>

@@ -1,13 +1,15 @@
+<%= render 'dashboard/header' %>
+
 <p id="notice"><%= notice %></p>
 
 <p>
   <strong>User:</strong>
-  <%= @reservation.user %>
+  <%= @reservation.user.email %>
 </p>
 
 <p>
   <strong>Car:</strong>
-  <%= @reservation.car %>
+  <%= @reservation.car.model %>
 </p>
 
 <p>
@@ -32,3 +34,6 @@
 
 <%= link_to 'Edit', edit_reservation_path(@reservation) %> |
 <%= link_to 'Back', reservations_path %>
+
+
+<%= render 'dashboard/links'%>

@@ -23,9 +23,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # DELETE /resource
-  # def destroy
-  #   super
-  # end
+  def destroy
+    @r = Reservation.where(:user_id => current_user.id)
+
+        if current_user.destroy
+          unless @r.empty?
+            @c = Car.find(@r.car_id)
+            @c.status = "available"
+            @c.save
+            @r.destroy
+         end
+         respond_to do |format|  ## Add this
+             format.html { redirect_to users_url, notice: 'User was successfully deleted' }
+          end
+       end
+  end
 
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign

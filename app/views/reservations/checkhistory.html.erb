@@ -1,0 +1,6 @@
+<%= render 'dashboard/header' %>
+	<strong>User Checkout history</strong>
+  <% @user_checkout_history.each do |u| %>
+	<%= u %>
+  <% end %>
+<%= render 'dashboard/links'%>

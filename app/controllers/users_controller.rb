@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   # before_action :authenticate_user!
   before_action :is_admin_or_superadmin, except: [:new, :create]
   before_action :allow_without_password, only: [:update]
+  skip_before_action :verify_authenticity_token
 
  def index
   	@users = User.where(admin: false, superadmin: false)
@@ -31,7 +32,11 @@ class UsersController < ApplicationController
 		end
 	  else
 	  	  respond_to do |format|  ## Add this
-		  	 format.html { redirect_to users_url, notice: @u.errors }
+	  	  	temp = "Could not save user \n"
+	  	  	@u.errors.each do |e,v|
+	  	  		temp = temp + ":"+ e.to_s + " - "+ v	
+	  	  	end
+		  	 format.html { redirect_to users_url, notice: temp }
 			  format.json { render json: @u.errors, status: :unprocessable_entity }
 	  	end
 	  end
@@ -39,8 +44,23 @@ class UsersController < ApplicationController
 
 def show
 	# print "Hello"
-	# logger.debug(params)
+	logger.debug(params)
 	@user = User.find(params[:id])
+	@user_reservations = Reservation.where(:user_id => @user.id)
+	@user_checkout_history = {}
+	unless @user_reservations.empty?
+		@user_reservations.each.with_index do |r,index|
+			print r.car_id
+			@c = Car.find(r.car_id)
+			@temp = {}
+			@temp[:car_model] = @c.model
+			@temp[:check_out] = r.check_out
+			@temp[:return] = r.return
+			@temp[:checked_out] = r.checked_out
+			@temp[:returned] = r.returned
+			@user_checkout_history[r.id] = @temp
+		end
+	end
 end
 
   def create
@@ -56,13 +76,16 @@ end
   def destroy
   	print "hello"
   	logger.debug(params)
-  	@user = @user.find(params[:id])
-	@r = Reservation.find(@user.id)
+  	@user = User.find(params[:id])
+	@r = Reservation.where(:user_id => @user.id)
+
   	if @user.destroy
-	 	@c = Car.find(@r.car_id)
-	 	@c.status = "available"
-	 	@c.save
-	 	@r.destroy
+  		unless @r.empty?
+  			@c = Car.find(@r.car_id)
+		 	@c.status = "available"
+		 	@c.save
+		 	@r.destroy
+		 end
 	 	 respond_to do |format|  ## Add this
 		  	 format.html { redirect_to users_url, notice: 'User was successfully deleted' }
 	  	end
