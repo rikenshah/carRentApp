@@ -84,7 +84,6 @@
     <% end %>
   </tbody>
 </table>
-</div>
 <script>
   var beginingCell;
   var endingCell;
@@ -116,6 +115,12 @@
                 }
             }
             td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    shouldShow = true;
+                }
+            }
+            td = tr[i].getElementsByTagName("td")[4];
             if (td) {
                 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
                     shouldShow = true;
@@ -158,3 +163,4 @@
 <% if is_admin_or_superadmin%>
 <%= link_to 'New Car', new_car_path %>
 <%end %>
+</div>

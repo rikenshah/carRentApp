@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171004211722) do
+ActiveRecord::Schema.define(version: 20171005020453) do
 
   create_table "cars", force: :cascade do |t|
     t.string "model"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20171004211722) do
     t.string "status", default: "available"
     t.string "style"
     t.integer "licence_plate"
+    t.boolean "approved", default: false
   end
 
   create_table "reservations", force: :cascade do |t|
