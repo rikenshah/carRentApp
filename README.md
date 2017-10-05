@@ -25,10 +25,6 @@ There will be three types of users in the system:
 - Admin and super admin can also create reservations/cars and delete them. When a reservation is deleted, the car status is changed to available. Also, when a car is deleted, its associated reservations are deleted.
 - Rentals are visible along with reservations. Also, on user checkout history page they are visible. If admin/superadmin sees a user, then on their show page, checkout history as well as rental is availale.
 
-### Bonus Task
-
-- User can suggest car
-
 ### Testing
 
 Reservation model and controller tested using custom unit tests.
